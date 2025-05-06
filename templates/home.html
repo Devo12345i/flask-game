@@ -1,0 +1,62 @@
+<form action="/search" method="GET">
+    <input type="text" name="q" placeholder="Search User Or Game" required>
+    <button type="submit"> Search</button>
+</form>
+<hr>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+</head>
+<body>
+    <h1>Add Game</h1>
+    <form action="/add_game" method="POST">
+        <input type="text" name="name" placeholder="Game Name" required><br>
+        <input type="text" name="genres" placeholder="Type" required><br>
+        <input type="text" name="photo" placeholder="Photo URL" required><br>
+        <input type="text" name="developer" placeholder="Developer"><br>
+        <input type="text" name="release_date" placeholder="Release Date"><br>
+        <button type="submit">Add Game</button>
+    </form>
+
+    <hr>
+    <h2>Add New User</h2>
+    <form action="/add_user" method="POST">
+        <input type="text" name="user_name" placeholder="User Name" required>
+        <button type="submit">Add User</button>
+    </form>
+
+    <hr>
+    <h2>Users</h2>
+    <ul>
+        {% for user in users %}
+            <li><a href="/user/{{ user.name }}">{{ user.name }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+<h2>Attached Games</h2>
+<ul>
+    {% for game in games %}
+        <li>
+            <strong>{{ game.name }}</strong>
+            ({{ game.rating if game.rating is defined else 0 }}/5) <br>
+            Tür: {{ game.genres }} <br>
+            <img src="{{ game.photo }}" width="200" height="200" alt="{{ game.name }}">
+            <form action="/delete_game" method="POST" style="margin-top:5px;">
+                <input type="hidden" name="game_name" value="{{ game.name }}">
+                <button type="submit"> Delete</button>
+            </form>
+            <br><br>
+        </li>
+    {% endfor %}
+</ul>
+
+
+
+
+
+
+

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ user.name }}'s Page</title>
+</head>
+<body>
+    <h1>{{ user.name }}'s Profile</h1>
+
+    <p><strong>Total Play Time:</strong> {{ user.total_play_time }} hours</p>
+    <p><strong>Most Played Game:</strong> {{ user.most_played_game or "No" }}</p>
+
+    <h3>Comments:</h3>
+    <ul>
+        {% for comment in user.comments %}
+            <li><strong>{{ comment.game }}</strong>: {{ comment.text }}</li>
+        {% else %}
+            <li>No comments.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="/">← Come Back</a>
+</body>
+</html>
+<h3>Play Game</h3>
+<form action="/play_game" method="POST">
+    <input type="hidden" name="username" value="{{ user.name }}">
+    <label>Game Name:</label>
+    <input type="text" name="game_name" required><br>
+    <label>Time (hour):</label>
+    <input type="number" name="hours" required><br>
+    <button type="submit">Play</button>
+</form>
+<hr>
+<h3>Add Comment</h3>
+<form action="/add_comment" method="POST">
+    <input type="hidden" name="username" value="{{ user.name }}">
+    <label>Choose Game:</label>
+    <select name="game_name" required>
+        {% for game in games %}
+            {% if game.allow_comments %}
+                <option value="{{ game.name }}">{{ game.name }}</option>
+            {% endif %}
+        {% endfor %}
+    </select><br>
+    <label>Comment:</label><br>
+    <textarea name="comment" rows="3" cols="30" required></textarea><br>
+    <button type="submit">Send Comment</button>
+</form>
+<hr>
+<h3>Rate Game</h3>
+<form action="/rate_game" method="POST">
+    <input type="hidden" name="username" value="{{ user.name }}">
+    <label>Choose Game:</label>
+    <select name="game_name" required>
+        {% for game in games %}
+            {% if game.allow_ratings %}
+                <option value="{{ game.name }}">{{ game.name }}</option>
+            {% endif %}
+        {% endfor %}
+    </select><br>
+    <label>Point (1–5):</label>
+    <input type="number" name="score" min="1" max="5" required><br>
+    <button type="submit">Give Point</button>
+</form>
+<form action="/browse_games" method="get">
+    <button type="submit"> Browse Games</button>
+</form>
+
+
+
+
+

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Browse Games</title>
+</head>
+<body>
+    <h1>All Games</h1>
+    <ul>
+        {% for game in games %}
+            <li>
+                <strong>{{ game.name }}</strong><br>
+                Type: {{ ', '.join(game.genres) }}<br>
+                <img src="{{ game.photo }}" width="200"><br>
+                Point: {{ game.rating }}/5<br>
+                Play Time: {{ game.play_time }} hours<br>
+                Developer: {{ game.optional.developer }}<br>
+                Release Date: {{ game.optional.release_date }}<br>
+
+                <!-- Show Comments -->
+                {% if game.all_comments %}
+                    <h4>Comments:</h4>
+                    <ul>
+                        {% for comment in game.all_comments %}
+                            <li><strong>{{ comment.user }}</strong>: {{ comment.text }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No comment.</p>
+                {% endif %}
+
+                <hr><br>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="/">← Back Home Page</a>
+</body>
+</html>
